@@ -343,7 +343,6 @@ def _create_pdu(pdus, frame):
         signal_ref.set("ID-REF", "SIG_" + signal_id)
 
 def _create_frame(frames, frame):
-def _create_ecu(ecus, frame):
     frame_element = create_sub_element_fx(frames, "FRAME")
     frame_element.set("ID", "FRAME_" + frame.name)
     create_short_name_desc(frame_element, frame.name, frame.comment)
