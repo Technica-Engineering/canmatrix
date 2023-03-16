@@ -389,16 +389,6 @@ def dump(db, f, **options):
     # CLUSTERS
     #
     clusters = create_sub_element_fx(elements, "CLUSTERS")
-    cluster = lxml.etree.SubElement(clusters, ns_fx + "CLUSTER")
-    cluster.set('ID', 'canCluster1')
-    create_short_name_desc(cluster, "clusterShort", "clusterDesc")
-    create_sub_element_fx(cluster, "SPEED", "500")
-    create_sub_element_fx(cluster, "IS-HIGH-LOW-BIT-ORDER", "true")
-    create_sub_element_fx(cluster, "BIT-COUNTING-POLICY", "MONOTONE")
-    protocol = create_sub_element_fx(cluster, "PROTOCOL", "CAN")
-    protocol.attrib['{{{pre}}}type'.format(pre=xsi)] = "can:PROTOCOL-TYPE"
-    create_sub_element_fx(cluster, "PROTOCOL-VERSION", "20")
-    channel_refs = create_sub_element_fx(cluster, "CHANNEL-REFS")
     #
     # CHANNELS
     #
@@ -433,6 +423,17 @@ def dump(db, f, **options):
     codings = create_sub_element_fx(proc_info, "CODINGS")
     # for each databasse
     for db_name, db_item in db:
+        # Create cluster
+        cluster = lxml.etree.SubElement(clusters, ns_fx + "CLUSTER")
+        cluster.set('ID', db_name)
+        create_short_name_desc(cluster, "clusterShort", "clusterDesc")
+        create_sub_element_fx(cluster, "SPEED", "500")
+        create_sub_element_fx(cluster, "IS-HIGH-LOW-BIT-ORDER", "true")
+        create_sub_element_fx(cluster, "BIT-COUNTING-POLICY", "MONOTONE")
+        protocol = create_sub_element_fx(cluster, "PROTOCOL", "CAN")
+        protocol.attrib['{{{pre}}}type'.format(pre=xsi)] = "can:PROTOCOL-TYPE"
+        create_sub_element_fx(cluster, "PROTOCOL-VERSION", "20")
+        channel_refs = create_sub_element_fx(cluster, "CHANNEL-REFS")
         # Create the channel reference
         channel_ref = create_sub_element_fx(channel_refs, "CHANNEL-REF")
         channel_ref.set("ID-REF", db_name)
